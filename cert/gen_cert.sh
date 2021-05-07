@@ -26,15 +26,15 @@ keytool -keystore kafka.broker1.keystore.jks -alias broker1 -import -file kafka.
 
 keytool -keystore kafka.broker1.truststore.jks -alias CARoot -import -file kafka-dev-ca.crt -storepass changeit -keypass changeit
 
-keytool -genkey -noprompt  -alias kafkaclient -dname "CN=kafkaclient.dev.kafka, OU=Eknarong, O=APHIPHUTTHIKUL, L=DEVELOP, S=Bangkok, C=TH" -keystore kafkaclient.keystore.jks  -keyalg RSA -storepass changeit -keypass changeit
+keytool -genkey -noprompt  -alias kclient -dname "CN=kclient.dev.kafka, OU=Eknarong, O=APHIPHUTTHIKUL, L=DEVELOP, S=Bangkok, C=TH" -keystore kafkaclient.keystore.jks  -keyalg RSA -storepass changeit -keypass changeit
 
-keytool -keystore kafkaclient.keystore.jks -alias kafkaclient -certreq -file kafkaclient.csr -storepass changeit -keypass changeit
+keytool -keystore kafkaclient.keystore.jks -alias kclient -certreq -file kafkaclient.csr -storepass changeit -keypass changeit
 
 openssl x509 -req -CA kafka-dev-ca.crt -CAkey kafka-dev-ca.key -in kafkaclient.csr -out kafkaclient-ca-signed.crt -days 9999 -CAcreateserial -passin pass:changeit
 
 keytool -keystore kafkaclient.keystore.jks -alias CARoot -import -file kafka-dev-ca.crt -storepass changeit -keypass changeit
 
-keytool -keystore kafkaclient.keystore.jks -alias kafkaclient -import -file kafkaclient-ca-signed.crt -storepass changeit -keypass changeit
+keytool -keystore kafkaclient.keystore.jks -alias kclient -import -file kafkaclient-ca-signed.crt -storepass changeit -keypass changeit
 
 keytool -keystore kafkaclient.truststore.jks -alias CARoot -import -file kafka-dev-ca.crt -storepass changeit -keypass changeit
 
