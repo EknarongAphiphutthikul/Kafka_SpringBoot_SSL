@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+  zk:
+    hostname: zookeeper1.dev.kafka
+    container_name: ZOOKEEPER_1
+    image: confluentinc/cp-zookeeper:5.5.1 
+    restart: always
+    labels:
+      - "zookeeper.id=1"
+    ports: 
+      - "2181:2181"
+      - "2182:2182"
+      - "2888:2888"
+      - "3888:3888"
+    environment:
+      TZ: Asia/Bangkok
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_SECURE_CLIENT_PORT: 2182
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_DATA_DIR: /var/lib/zookeeper/data
+      ZOOKEEPER_LOG_DIR: /var/lib/zookeeper/log
+      ZOOKEEPER_SERVERS: zookeeper1.dev.kafka:2888:3888
+      KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/zk_jaas.conf
+             -Dzookeeper.authProvider.sasl=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+             -Dzookeeper.authProvider.x509=org.apache.zookeeper.server.auth.X509AuthenticationProvider
+             -Dzookeeper.requireClientAuthScheme=sasl
+             -Dzookeeper.4lw.commands.whitelist=*
+             -Dzookeeper.serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
+             -Dzookeeper.ssl.keyStore.location=/etc/zookeeper/secrets/zookeeper1.keystore.jks
+             -Dzookeeper.ssl.keyStore.password=changeit
+             -Dzookeeper.ssl.trustStore.location=/etc/zookeeper/secrets/zookeeper1.truststore.jks
+             -Dzookeeper.ssl.trustStore.password=changeit
+             -Dzookeeper.ssl.client.enable=none
+             -Dzookeeper.client.secure=true
+             -Dzookeeper.admin.enableServer=false
+    volumes:
+      - D:\My_Work\Git\Kafka_SpringBoot\zk-kafka\config\zk_jaas.conf:/etc/kafka/zk_jaas.conf
+      - D:\My_Work\Git\Kafka_SpringBoot\volumes\zk\data:/var/lib/zookeeper/data
+      - D:\My_Work\Git\Kafka_SpringBoot\volumes\zk\log:/var/lib/zookeeper/log
+      - D:\My_Work\Git\Kafka_SpringBoot\cert:/etc/zookeeper/secrets
+    extra_hosts:
+      - "zookeeper1.dev.kafka broker1.dev.kafka:192.168.43.145"
