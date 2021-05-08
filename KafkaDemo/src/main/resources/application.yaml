@@ -1,0 +1,20 @@
+spring:
+  kafka:
+    bootstrap-servers:
+    - broker1.dev.kafka:9092
+    ssl:
+#      key-store-location: file:D:\My_Work\Git\Kafka_SpringBoot\cert\kafka.broker1.keystore.jks
+#      key-store-password: changeit
+      trust-store-location: file:D:\My_Work\Git\Kafka_SpringBoot\cert\kafkaclient.truststore.jks
+      trust-store-password: changeit
+    consumer:
+      auto-offset-reset: earliest
+      group-id: demo
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: PLAIN
+        jaas: 
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="kafkausr" password="P@ssw0rd";
+#          config: org.apache.kafka.common.security.plain.PlainLoginModule required serviceName="kafka" username="admin" password="adminpassword" user_admin="adminpassword" user_kafkausr="P@ssw0rd";

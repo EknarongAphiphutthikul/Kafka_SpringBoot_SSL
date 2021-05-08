@@ -41,3 +41,7 @@ keytool -keystore kafkaclient.truststore.jks -alias CARoot -import -file kafka-d
 echo "changeit" > sslkey_pw
 echo "changeit" > keystore_pw
 echo "changeit" > truststore_pw
+
+keytool -list -v -keystore zookeeper1.keystore.jks -storepass changeit -keypass changeit
+keytool -list -v -keystore kafka.broker1.keystore.jks -storepass changeit -keypass changeit
+keytool -list -v -keystore kafkaclient.keystore.jks -storepass changeit -keypass changeit
